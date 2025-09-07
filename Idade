@@ -1,0 +1,53 @@
+<?php
+$resultado = null;
+$classeCss = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $idade = filter_input(INPUT_POST, 'idade', FILTER_VALIDATE_INT, ["options" => ["min_range" => 0]]);
+
+    if ($idade !== false && $idade !== null) {
+        if ($idade <= 12) {
+            $resultado = "Criança";
+            $classeCss = "crianca";
+        } elseif ($idade <= 17) {
+            $resultado = "Adolescente";
+            $classeCss = "adolescente";
+        } elseif ($idade <= 59) {
+            $resultado = "Adulto";
+            $classeCss = "adulto";
+        } else {
+            $resultado = "Idoso";
+            $classeCss = "idoso";
+        }
+
+        //se for idade invalida
+    } else {
+        $resultado = "Idade inválida!";
+        $classeCss = "erro";
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Classificador de Idade</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Classificador de Idade</h1>
+    <form method="post"> <!-- fomulario pra digitar-->
+        <label for="idade">Digite sua idade:</label>
+        <input type="number" name="idade" id="idade" required>
+        <button type="submit">Classificar</button>
+    </form>
+
+    <?php if ($resultado): ?>  <!-- mostra resultado-->
+        <div class="resultado <?php echo $classeCss; ?>">
+            <?php echo htmlspecialchars($resultado, ENT_QUOTES, 'UTF-8'); ?>
+        </div>
+    <?php endif; ?>
+</body>
+</html>
