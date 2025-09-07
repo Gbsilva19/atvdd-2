@@ -1,0 +1,46 @@
+<?php
+$pares = [];
+$erro = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { //verifica se clicou
+    $maximo = filter_input(INPUT_POST, 'maximo', FILTER_VALIDATE_INT); //pega o maximo digitado
+
+    if ($maximo === false || $maximo <= 1) {
+        $erro = "Digite um número maior que 1!";
+    } else { //mostra os numeros
+        for ($i = 2; $i <= $maximo; $i += 2) {
+            $pares[] = $i;
+        }
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Números Pares</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gerador de Números Pares</h1>
+        <form method="post"> <!-- formulario pra digitar-->
+            <label for="maximo">Digite o número máximo:</label>
+            <input type="number" name="maximo" id="maximo" min="2" required
+                   value="<?= htmlspecialchars($_POST['maximo'] ?? '') ?>">
+            <button type="submit">Gerar Pares</button>
+        </form>
+
+        <!-- mostra erro-->
+        <?php if ($erro): ?>
+            <p class="erro"><?= $erro ?></p>
+        <?php elseif (!empty($pares)): ?>
+            <ul class="pares">
+                <?php foreach($pares as $index => $numero): ?> <!-- muda as classes-->
+                    <li class="<?= $index % 2 == 0 ? 'par' : 'impar' ?>"><?= $numero ?></li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+</body>
+</html>
