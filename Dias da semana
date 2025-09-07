@@ -1,0 +1,68 @@
+<?php
+$mensagem = null; 
+$classeCss = null; 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { //verifica formulario
+    $numero = filter_input(INPUT_POST, 'numero', FILTER_VALIDATE_INT); //valida numero digitado
+
+    switch ($numero) {
+        case 1:
+            $mensagem = "Segunda-feira";
+            $classeCss = "dia";
+            break;
+        case 2:
+            $mensagem = "Terça-feira";
+            $classeCss = "dia";
+            break;
+        case 3:
+            $mensagem = "Quarta-feira";
+            $classeCss = "dia";
+            break;
+        case 4:
+            $mensagem = "Quinta-feira";
+            $classeCss = "dia";
+            break;
+        case 5:
+            $mensagem = "Sexta-feira";
+            $classeCss = "dia";
+            break;
+        case 6:
+            $mensagem = "Sábado";
+            $classeCss = "dia";
+            break;
+        case 7:
+            $mensagem = "Domingo";
+            $classeCss = "dia";
+            break;
+        default: //erro de numero diferente
+            $mensagem = "Número inválido! Digite de 1 a 7.";
+            $classeCss = "erro";
+            break;
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dias da Semana</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Descubra o dia da semana</h1>
+        <form method="post"> <!-- formulario de digitar-->
+            <label for="numero">Digite um número (1 a 7):</label>
+            <input type="number" id="numero" name="numero" min="1" max="7" required
+                   value="<?= htmlspecialchars($_POST['numero'] ?? '') ?>">
+            <button type="submit">Verificar</button>
+        </form>
+
+        <?php if ($mensagem): ?> <!-- resultado-->
+            <div class="resultado <?= $classeCss ?>">
+                <?= htmlspecialchars($mensagem) ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</body>
+</html>
